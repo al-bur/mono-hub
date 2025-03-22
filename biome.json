@@ -7,7 +7,16 @@
     "enabled": true,
     "rules": {
       "recommended": true
-    }
+    },
+    "ignore": [
+      ".next/**/*",
+      ".turbo/**/*",
+      "node_modules/**/*",
+      "build/**/*",
+      "dist/**/*",
+      ".vercel/**/*",
+      "coverage/**/*"
+    ]
   },
   "formatter": {
     "enabled": true,

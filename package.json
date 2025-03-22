@@ -24,8 +24,7 @@
   },
   "packageManager": "bun@1.0.30",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/*"
   ],
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
