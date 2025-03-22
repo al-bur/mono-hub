@@ -7,7 +7,7 @@
     "lint": "turbo lint",
     "format": "biome format --write .",
     "create-app": "node scripts/create-app.js",
-    "prepare": "husky install",
+    "prepare": "husky",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "turbo run build --filter=!docs && changeset publish"
@@ -22,7 +22,7 @@
     "prompts": "^2.4.2",
     "turbo": "^2.4.4"
   },
-  "packageManager": "bun@1.0.30",
+  "packageManager": "bun@1.2.5",
   "workspaces": [
     "apps/*"
   ],
