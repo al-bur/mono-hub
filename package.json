@@ -16,9 +16,6 @@
     "prompts": "^2.4.2",
     "fs-extra": "^11.2.0"
   },
-  "engines": {
-    "node": ">=18"
-  },
   "packageManager": "bun@1.0.30",
   "workspaces": [
     "apps/*",
