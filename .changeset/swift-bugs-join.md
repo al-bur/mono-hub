@@ -1,0 +1,5 @@
+---
+"@ss/web": minor
+---
+
+wow
