@@ -1,0 +1,51 @@
+name: 빌드 및 테스트
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  build-lint:
+    name: 🏗 빌드 및 린트 검사
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 📦 Bun 설정
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: 📥 의존성 설치
+        run: bun install
+
+      - name: 🏗 빌드
+        run: bun turbo build
+
+      - name: 🧹 린트 검사
+        run: bun turbo lint
+
+  typecheck:
+    name: ʦ 타입 검사
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 📦 Bun 설정
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: 📥 의존성 설치
+        run: bun install
+
+      - name: 🔎 타입 검사
+        run: bun turbo typecheck
