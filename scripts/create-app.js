@@ -1,58 +1,58 @@
-const prompts = require("prompts");
-const fs = require("fs-extra");
-const path = require("path");
-const { execSync } = require("child_process");
+const prompts = require('prompts');
+const fs = require('fs-extra');
+const path = require('path');
+const { execSync } = require('child_process');
 
 async function main() {
   const response = await prompts([
     {
-      type: "text",
-      name: "name",
-      message: "앱 이름을 입력하세요:",
-      validate: (value) => value.length > 0 || "이름은 필수입니다",
+      type: 'text',
+      name: 'name',
+      message: '앱 이름을 입력하세요:',
+      validate: (value) => value.length > 0 || '이름은 필수입니다',
     },
     {
-      type: "select",
-      name: "template",
-      message: "템플릿을 선택하세요:",
+      type: 'select',
+      name: 'template',
+      message: '템플릿을 선택하세요:',
       choices: [
-        { title: "Next.js (Pages Router)", value: "next-pages" },
-        { title: "Next.js (App Router)", value: "next-app" },
-        { title: "Vite + React", value: "vite-react" },
+        { title: 'Next.js (Pages Router)', value: 'next-pages' },
+        { title: 'Next.js (App Router)', value: 'next-app' },
+        { title: 'Vite + React', value: 'vite-react' },
       ],
     },
   ]);
 
   if (!response.name || !response.template) {
-    console.log("❌ 취소되었습니다");
+    console.log('❌ 취소되었습니다');
     return;
   }
 
-  const appDir = path.join(process.cwd(), "apps", response.name);
+  const appDir = path.join(process.cwd(), 'apps', response.name);
 
   // 기본 템플릿 복사
-  await fs.copy(
-    path.join(process.cwd(), "templates", response.template),
-    appDir
-  );
+  await fs.copy(path.join(process.cwd(), 'templates', response.template), appDir);
 
   // package.json 수정
-  const packageJson = await fs.readJson(path.join(appDir, "package.json"));
+  const packageJson = await fs.readJson(path.join(appDir, 'package.json'));
   packageJson.name = `@${response.name}/web`;
-  await fs.writeJson(path.join(appDir, "package.json"), packageJson, {
+  await fs.writeJson(path.join(appDir, 'package.json'), packageJson, {
     spaces: 2,
   });
 
   // biome.json 생성
   const biomeJson = {
-    $schema: "https://biomejs.dev/schemas/1.5.3/schema.json",
-    extends: ["../../biome.json"],
+    $schema: 'https://biomejs.dev/schemas/1.5.3/schema.json',
+    extends: ['../../biome.json'],
   };
-  await fs.writeJson(path.join(appDir, "biome.json"), biomeJson, { spaces: 2 });
+  await fs.writeJson(path.join(appDir, 'biome.json'), biomeJson, { spaces: 2 });
+
+  // .nvmrc 복사
+  await fs.copy(path.join(process.cwd(), '.nvmrc'), path.join(appDir, '.nvmrc'));
 
   // 의존성 설치
-  console.log("📦 의존성 설치 중...");
-  execSync("bun install", { stdio: "inherit" });
+  console.log('📦 의존성 설치 중...');
+  execSync('bun install', { stdio: 'inherit' });
 
   console.log(`
 ✅ ${response.name} 앱이 생성되었습니다!
